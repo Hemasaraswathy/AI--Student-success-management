@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Student Success Management</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.login-container{
+    width:420px;
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.logo{
+    text-align:center;
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    text-align:center;
+    color:#333;
+    font-size:25px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin:10px 0 25px;
+    font-size:14px;
+}
+
+.role-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.role-btn{
+    flex:1;
+    padding:12px;
+    border:1px solid #ccc;
+    background:white;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.role-btn.active{
+    background:#667eea;
+    color:white;
+    border-color:#667eea;
+}
+
+.input-box{
+    margin-bottom:18px;
+}
+
+.input-box label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    color:#444;
+}
+
+.input-box input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+.login-btn{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:#667eea;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#5568d9;
+}
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    color:red;
+    font-size:14px;
+}
+
+.demo{
+    margin-top:20px;
+    padding:12px;
+    background:#f4f6fb;
+    border-radius:8px;
+    font-size:13px;
+    color:#555;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+<div class="logo">🎓</div>
+
+<h1>AI Student Success</h1>
+
+<p class="subtitle">
+AI Driven Student Success Management
+</p>
+
+
+<div class="role-box">
+
+<button
+type="button"
+id="facultyBtn"
+class="role-btn active"
+onclick="selectRole('faculty')">
+
+👨‍🏫 Faculty
+
+</button>
+
+
+<button
+type="button"
+id="studentBtn"
+class="role-btn"
+onclick="selectRole('student')">
+
+👨‍🎓 Student
+
+</button>
+
+</div>
+
+
+<form onsubmit="login(event)">
+
+
+<div class="input-box">
+
+<label>Username / Roll Number</label>
+
+<input
+type="text"
+id="username"
+placeholder="Enter username"
+required>
+
+</div>
+
+
+<div class="input-box">
+
+<label>Password</label>
+
+<input
+type="password"
+id="password"
+placeholder="Enter password"
+required>
+
+</div>
+
+
+<button
+type="submit"
+class="login-btn">
+
+Login
+
+</button>
+
+
+</form>
+
+
+<p
+id="message"
+class="message">
+
+</p>
+
+
+<div class="demo">
+
+<strong>Demo Login</strong>
+
+<br><br>
+
+Faculty:
+<strong>faculty</strong> /
+<strong>1234</strong>
+
+<br>
+
+Student:
+<strong>student</strong> /
+<strong>1234</strong>
+
+<br><br>
+
+You can later replace these with real authentication.
+
+</div>
+
+</div>
+
+
+<script>
+
+let selectedRole = "faculty";
+
+
+function selectRole(role){
+
+selectedRole = role;
+
+
+document
+.getElementById("facultyBtn")
+.classList.remove("active");
+
+document
+.getElementById("studentBtn")
+.classList.remove("active");
+
+
+if(role === "faculty"){
+
+document
+.getElementById("facultyBtn")
+.classList.add("active");
+
+document
+.getElementById("username")
+.placeholder =
+"Enter faculty username";
+
+}
+
+else{
+
+document
+.getElementById("studentBtn")
+.classList.add("active");
+
+document
+.getElementById("username")
+.placeholder =
+"Enter student roll number";
+
+}
+
+}
+
+
+function login(event){
+
+event.preventDefault();
+
+
+const username =
+document
+.getElementById("username")
+.value
+.trim();
+
+
+const password =
+document
+.getElementById("password")
+.value
+.trim();
+
+
+const message =
+document
+.getElementById("message");
+
+
+if(selectedRole === "faculty"){
+
+if(
+username === "faculty" &&
+password === "1234"
+){
+
+localStorage.setItem(
+"loggedRole",
+"faculty"
+);
+
+localStorage.setItem(
+"facultyName",
+username
+);
+
+window.location.href =
+"faculty.html";
+
+}
+
+else{
+
+message.innerText =
+"Invalid faculty username or password.";
+
+}
+
+}
+
+
+else{
+
+if(
+username !== "" &&
+password === "1234"
+){
+
+localStorage.setItem(
+"loggedRole",
+"student"
+);
+
+localStorage.setItem(
+"studentRollNo",
+username
+);
+
+window.location.href =
+"student.html";
+
+}
+
+else{
+
+message.innerText =
+"Invalid student login details.";
+
+}
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

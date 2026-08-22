@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Success Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div class="login-page" id="loginPage">
+
+        <div class="login-box">
+
+            <div class="login-icon">🎓</div>
+
+            <h1>Student Success</h1>
+
+            <p>AI-Driven Student Management System</p>
+
+            <form id="loginForm">
+
+                <label>Student ID</label>
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter Student ID"
+                    required
+                >
+
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    required
+                >
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <p class="demo">
+                Demo: ID: <b>student</b> | Password: <b>1234</b>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+
+        <header>
+
+            <div>
+                <h1>🎓 Student Success Management</h1>
+                <p>AI-Driven Student Performance & Support System</p>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+
+        </header>
+
+
+        <section class="welcome">
+
+            <h2>Welcome, Student 👋</h2>
+
+            <p>
+                Track your academic performance and improve your success.
+            </p>
+
+        </section>
+
+
+        <!-- SUMMARY CARDS -->
+
+        <section class="cards">
+
+            <div class="card">
+                <h3>📊 Overall Performance</h3>
+                <p class="number">82%</p>
+                <p>Good Performance</p>
+            </div>
+
+            <div class="card">
+                <h3>📅 Attendance</h3>
+                <p class="number">91%</p>
+                <p>Excellent</p>
+            </div>
+
+            <div class="card">
+                <h3>📝 Assignments</h3>
+                <p class="number">8/10</p>
+                <p>Completed</p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Success Score</h3>
+                <p class="number">88%</p>
+                <p>On Track</p>
+            </div>
+
+        </section>
+
+
+        <!-- SUBJECT PERFORMANCE -->
+
+        <section class="subjects">
+
+            <h2>📚 Subject Performance</h2>
+
+            <div class="subject">
+                <span>Python</span>
+
+                <div class="progress">
+                    <div class="bar python">85%</div>
+                </div>
+            </div>
+
+
+            <div class="subject">
+                <span>Data Structures</span>
+
+                <div class="progress">
+                    <div class="bar dsa">72%</div>
+                </div>
+            </div>
+
+
+            <div class="subject">
+                <span>Database</span>
+
+                <div class="progress">
+                    <div class="bar db">90%</div>
+                </div>
+            </div>
+
+
+            <div class="subject">
+                <span>Mathematics</span>
+
+                <div class="progress">
+                    <div class="bar maths">65%</div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- AI RECOMMENDATION -->
+
+        <section class="ai-box">
+
+            <h2>🤖 AI Recommendation</h2>
+
+            <p>
+                Your overall performance is good.
+                Your Mathematics score needs improvement.
+            </p>
+
+            <ul>
+
+                <li>
+                    Practice Mathematics for 30 minutes daily.
+                </li>
+
+                <li>
+                    Maintain your attendance above 85%.
+                </li>
+
+                <li>
+                    Complete pending assignments on time.
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

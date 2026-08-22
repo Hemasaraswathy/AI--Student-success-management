@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Success Management</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px 40px;
+        }
+
+        header h1 {
+            font-size: 27px;
+        }
+
+        header p {
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px 40px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* INPUT */
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .input-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        /* SUBJECTS */
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .subject-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f4f6fb;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .subject-input input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        /* BUTTONS */
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .analyze-btn,
+        .save-btn,
+        .clear-btn,
+        .logout-btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .analyze-btn {
+            background: #667eea;
+        }
+
+        .save-btn {
+            background: #28a745;
+        }
+
+        .clear-btn {
+            background: #dc3545;
+        }
+
+        .logout-btn {
+            background: #667eea;
+        }
+
+        .analyze-btn:hover {
+            background: #5568d9;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #667eea;
+            font-size: 30px;
+        }
+
+        .card p {
+            margin-top: 8px;
+            color: #777;
+        }
+
+        /* AI */
+
+        .ai-result {
+            background: #eef1ff;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .ai-result h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .recommendation {
+            background: white;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+
+        .recommendation p {
+            line-height: 1.7;
+        }
+
+        .alert {
+            margin-top: 15px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #fff3cd;
+        }
+
+        /* STUDY PLAN */
+
+        .study-plan {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: #f4f6fb;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .plan-card .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .plan-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .plan-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* HISTORY TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #eef1ff;
+            color: #555;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .cards,
+            .input-grid,
+            .subject-grid,
+            .study-plan {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .cards,
+            .input-grid,
+            .subject-grid,
+            .study-plan {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <h1>
+        AI Driven Student Success Management
+    </h1>
+
+    <p id="welcome">
+        Welcome, Student 👋
+    </p>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- PERFORMANCE INPUT -->
+
+    <div class="section">
+
+        <h2>
+            🧑‍🎓 Student Performance
+        </h2>
+
+        <div class="input-grid">
+
+            <div class="input-box">
+
+                <label>
+                    Attendance (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="attendance"
+                    placeholder="Example: 85"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="input-box">
+
+                <label>
+                    Average Marks (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="marks"
+                    placeholder="Example: 78"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="input-box">
+
+                <label>
+                    Assignments (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="assignments"
+                    placeholder="Example: 90"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECT MARKS -->
+
+    <div class="section">
+
+        <h2>
+            📚 Subject-wise Marks
+        </h2>
+
+        <div class="subject-grid">
+
+
+            <div class="subject-input">
+
+                <span>
+                    Data Structures
+                </span>
+
+                <input
+                    type="number"
+                    id="ds"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="subject-input">
+
+                <span>
+                    Java Programming
+                </span>
+
+                <input
+                    type="number"
+                    id="java"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="subject-input">
+
+                <span>
+                    Data Science
+                </span>
+
+                <input
+                    type="number"
+                    id="dataScience"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="subject-input">
+
+                <span>
+                    Discrete Mathematics
+                </span>
+
+                <input
+                    type="number"
+                    id="maths"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+            <div class="subject-input">
+
+                <span>
+                    Computer Networks
+                </span>
+
+                <input
+                    type="number"
+                    id="networks"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                >
+
+            </div>
+
+
+        </div>
+
+
+        <div class="button-group">
+
+            <button
+                class="analyze-btn"
+                onclick="analyzeStudent()">
+
+                🤖 Analyze Student
+
+            </button>
+
+
+            <button
+                class="save-btn"
+                onclick="saveAnalysis()">
+
+                💾 Save Analysis
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT CARDS -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                📊 Attendance
+            </h3>
+
+            <h2 id="attendanceResult">
+                --
+            </h2>
+
+            <p id="attendanceStatus">
+                Not analyzed
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📝 Average Marks
+            </h3>
+
+            <h2 id="marksResult">
+                --
+            </h2>
+
+            <p>
+                Academic Performance
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📚 Assignments
+            </h3>
+
+            <h2 id="assignmentResult">
+                --
+            </h2>
+
+            <p>
+                Completion Rate
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🎯 Success Score
+            </h3>
+
+            <h2 id="successScore">
+                --
+            </h2>
+
+            <p id="riskLevel">
+                Not analyzed
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- AI ANALYSIS -->
+
+    <div class="section">
+
+        <h2>
+            🤖 AI Performance Analysis
+        </h2>
+
+
+        <div class="ai-result">
+
+
+            <h3 id="aiTitle">
+                AI Analysis
+            </h3>
+
+
+            <p id="aiMessage">
+
+                Enter student information and click
+                "Analyze Student".
+
+            </p>
+
+
+            <div class="recommendation">
+
+                <h3>
+                    ⚠️ Weak Subject
+                </h3>
+
+                <p id="weakSubject">
+
+                    Weak subject will appear here.
+
+                </p>
+
+            </div>
+
+
+            <div class="recommendation">
+
+                <h3>
+                    💡 AI Study Recommendation
+                </h3>
+
+                <p id="studyRecommendation">
+
+                    Personalized recommendation will appear here.
+
+                </p>
+
+            </div>
+
+
+            <div class="alert">
+
+                <h3>
+                    🔔 Attendance Alert
+                </h3>
+
+                <p id="attendanceAlert">
+
+                    Attendance status will appear here.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDY PLAN -->
+
+    <div class="section">
+
+        <h2>
+            📅 Personalized Study Plan
+        </h2>
+
+
+        <div class="study-plan">
+
+
+            <div class="plan-card">
+
+                <div class="icon">
+                    ⏰
+                </div>
+
+                <h3>
+                    Daily Study
+                </h3>
+
+                <p id="studyHours">
+                    -- hours per day
+                </p>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="icon">
+                    📖
+                </div>
+
+                <h3>
+                    Main Focus
+                </h3>
+
+                <p id="mainFocus">
+                    ---
+                </p>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Target Score
+                </h3>
+
+                <p id="targetScore">
+                    --%
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ANALYSIS HISTORY -->
+
+    <div class="section">
+
+        <h2>
+            📋 Analysis History
+        </h2>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date & Time
+                        </th>
+
+                        <th>
+                            Attendance
+                        </th>
+
+                        <th>
+                            Marks
+                        </th>
+
+                        <th>
+                            Assignments
+                        </th>
+
+                        <th>
+                            Success Score
+                        </th>
+
+                        <th>
+                            Risk Level
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="historyTable">
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                id="noHistory"
+                class="no-history">
+
+                No analysis history available.
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="clear-btn"
+            onclick="clearHistory()">
+
+            🗑️ Clear History
+
+        </button>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+
+</div>
+
+
+
+<script>
+
+
+/* STUDENT NAME */
+
+const studentName =
+    localStorage.getItem("studentName");
+
+
+if (studentName) {
+
+    document.getElementById("welcome").innerText =
+        "Welcome, " + studentName + " 👋";
+
+}
+
+
+
+/* CURRENT ANALYSIS */
+
+let currentAnalysis = null;
+
+
+
+/* ANALYZE STUDENT */
+
+function analyzeStudent() {
+
+
+    const attendance =
+        Number(
+            document.getElementById("attendance").value
+        );
+
+
+    const marks =
+        Number(
+            document.getElementById("marks").value
+        );
+
+
+    const assignments =
+        Number(
+            document.getElementById("assignments").value
+        );
+
+
+    const subjects = {
+
+        "Data Structures":
+            Number(document.getElementById("ds").value),
+
+        "Java Programming":
+            Number(document.getElementById("java").value),
+
+        "Data Science":
+            Number(document.getElementById("dataScience").value),
+
+        "Discrete Mathematics":
+            Number(document.getElementById("maths").value),
+
+        "Computer Networks":
+            Number(document.getElementById("networks").value)
+
+    };
+
+
+    /* VALIDATION */
+
+    if (
+
+        attendance < 0 ||
+        attendance > 100 ||
+
+        marks < 0 ||
+        marks > 100 ||
+
+        assignments < 0 ||
+        assignments > 100
+
+    ) {
+
+        alert(
+            "Please enter attendance, marks and assignments between 0 and 100."
+        );
+
+        return;
+
+    }
+
+
+    for (const subject in subjects) {
+
+        if (
+            subjects[subject] < 0 ||
+            subjects[subject] > 100
+        ) {
+
+            alert(
+                "Please enter all subject marks between 0 and 100."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* SUCCESS SCORE */
+
+    const successScore =
+
+        Math.round(
+
+            (attendance * 0.30) +
+            (marks * 0.50) +
+            (assignments * 0.20)
+
+        );
+
+
+    /* DISPLAY RESULTS */
+
+    document.getElementById("attendanceResult")
+        .innerText =
+        attendance + "%";
+
+
+    document.getElementById("marksResult")
+        .innerText =
+        marks + "%";
+
+
+    document.getElementById("assignmentResult")
+        .innerText =
+        assignments + "%";
+
+
+    document.getElementById("successScore")
+        .innerText =
+        successScore + "%";
+
+
+
+    /* ATTENDANCE */
+
+    if (attendance >= 75) {
+
+        document.getElementById("attendanceStatus")
+            .innerText =
+            "Good Attendance";
+
+        document.getElementById("attendanceAlert")
+            .innerText =
+            "Your attendance is good. Maintain it above 75%.";
+
+    }
+
+    else {
+
+        document.getElementById("attendanceStatus")
+            .innerText =
+            "Needs Improvement";
+
+        document.getElementById("attendanceAlert")
+            .innerText =
+            "⚠️ Attendance is below 75%. Attend classes regularly.";
+
+    }
+
+
+
+    /* WEAK SUBJECT */
+
+    let weakSubject = "";
+    let lowestMark = 101;
+
+
+    for (const subject in subjects) {
+
+        if (subjects[subject] < lowestMark) {
+
+            lowestMark =
+                subjects[subject];
+
+            weakSubject =
+                subject;
+
+        }
+
+    }
+
+
+    document.getElementById("weakSubject")
+        .innerText =
+
+        weakSubject +
+        " has the lowest mark of " +
+        lowestMark +
+        "%.";
+
+
+
+    /* RISK */
+
+    let risk;
+    let title;
+    let message;
+
+
+    if (successScore >= 80) {
+
+        risk =
+            "🟢 Low Risk";
+
+        title =
+            "🎉 Excellent Student Performance";
+
+        message =
+            "The student is performing very well and has strong academic potential.";
+
+    }
+
+    else if (successScore >= 60) {
+
+        risk =
+            "🟡 Medium Risk";
+
+        title =
+            "⚠️ Student Needs Improvement";
+
+        message =
+            "The student is performing at an average level and has room for improvement.";
+
+    }
+
+    else {
+
+        risk =
+            "🔴 High Risk";
+
+        title =
+            "🚨 Student At Academic Risk";
+
+        message =
+            "The student may require additional academic support.";
+
+    }
+
+
+    document.getElementById("riskLevel")
+        .innerText =
+        risk;
+
+
+    document.getElementById("aiTitle")
+        .innerText =
+        title;
+
+
+    document.getElementById("aiMessage")
+        .innerText =
+        message;
+
+
+
+    /* STUDY HOURS */
+
+    let hours;
+
+
+    if (successScore >= 80) {
+
+        hours =
+            "2 hours per day";
+
+    }
+
+    else if (successScore >= 60) {
+
+        hours =
+            "3 hours per day";
+
+    }
+
+    else {
+
+        hours =
+            "4 hours per day";
+
+    }
+
+
+    document.getElementById("studyHours")
+        .innerText =
+        hours;
+
+
+    /* TARGET */
+
+    let target;
+
+
+    if (successScore >= 80) {
+
+        target = 90;
+
+    }
+
+    else if (successScore >= 60) {
+
+        target = 80;
+
+    }
+
+    else {
+
+        target = 75;
+
+    }
+
+
+    document.getElementById("targetScore")
+        .innerText =
+        target + "%";
+
+
+    /* MAIN FOCUS */
+
+    document.getElementById("mainFocus")
+        .innerText =
+        weakSubject;
+
+
+    /* RECOMMENDATION */
+
+    let recommendation = "";
+
+
+    if (lowestMark < 60) {
+
+        recommendation +=
+            "Focus strongly on " +
+            weakSubject +
+            " and study it for at least 1 hour daily. ";
+
+    }
+
+    else if (lowestMark < 75) {
+
+        recommendation +=
+            "Practice " +
+            weakSubject +
+            " regularly to improve your score. ";
+
+    }
+
+    else {
+
+        recommendation +=
+            "Continue maintaining good performance in " +
+            weakSubject +
+            ". ";
+
+    }
+
+
+    if (attendance < 75) {
+
+        recommendation +=
+            "Improve your attendance by attending classes regularly. ";
+
+    }
+
+
+    if (assignments < 75) {
+
+        recommendation +=
+            "Complete pending assignments on time. ";
+
+    }
+
+
+    recommendation +=
+        "Continue regular revision and practice.";
+
+
+    document.getElementById("studyRecommendation")
+        .innerText =
+        recommendation;
+
+
+
+    /* SAVE CURRENT ANALYSIS */
+
+    currentAnalysis = {
+
+        date:
+            new Date().toLocaleString(),
+
+        attendance:
+            attendance,
+
+        marks:
+            marks,
+
+        assignments:
+            assignments,
+
+        successScore:
+            successScore,
+
+        risk:
+            risk
+
+    };
+
+}
+
+
+
+/* SAVE ANALYSIS */
+
+function saveAnalysis() {
+
+
+    if (!currentAnalysis) {
+
+        alert(
+            "Please analyze the student before saving."
+        );
+
+        return;
+
+    }
+
+
+    let history =
+        JSON.parse(
+            localStorage.getItem("analysisHistory")
+        ) || [];
+
+
+    history.push(currentAnalysis);
+
+
+    localStorage.setItem(
+        "analysisHistory",
+        JSON.stringify(history)
+    );
+
+
+    displayHistory();
+
+
+    alert(
+        "Analysis saved successfully! ✅"
+    );
+
+}
+
+
+
+/* DISPLAY HISTORY */
+
+function displayHistory() {
+
+
+    const historyTable =
+        document.getElementById("historyTable");
+
+
+    const noHistory =
+        document.getElementById("noHistory");
+
+
+    let history =
+        JSON.parse(
+            localStorage.getItem("analysisHistory")
+        ) || [];
+
+
+    historyTable.innerHTML = "";
+
+
+    if (history.length === 0) {
+
+        noHistory.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    noHistory.style.display =
+        "none";
+
+
+    history.reverse();
+
+
+    history.forEach(function(record) {
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${record.date}
+            </td>
+
+            <td>
+                ${record.attendance}%
+            </td>
+
+            <td>
+                ${record.marks}%
+            </td>
+
+            <td>
+                ${record.assignments}%
+            </td>
+
+            <td>
+                ${record.successScore}%
+            </td>
+
+            <td>
+                ${record.risk}
+            </td>
+
+        `;
+
+
+        historyTable.appendChild(row);
+
+    });
+
+}
+
+
+
+/* CLEAR HISTORY */
+
+function clearHistory() {
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to clear all analysis history?"
+        );
+
+
+    if (confirmDelete) {
+
+        localStorage.removeItem(
+            "analysisHistory"
+        );
+
+        displayHistory();
+
+        alert(
+            "Analysis history cleared."
+        );
+
+    }
+
+}
+
+
+
+/* LOGOUT */
+
+function logout() {
+
+    localStorage.removeItem(
+        "studentName"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* LOAD HISTORY */
+
+displayHistory();
+
+</script>
+
+
+</body>
+</html>

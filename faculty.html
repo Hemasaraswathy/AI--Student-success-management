@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Faculty Dashboard - AI Student Success</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fb;
+    color:#333;
+}
+
+/* HEADER */
+
+header{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    padding:25px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h1{
+    font-size:26px;
+}
+
+header p{
+    margin-top:7px;
+}
+
+.logout-btn{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:#667eea;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+/* MAIN */
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:30px 40px;
+}
+
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:#555;
+    margin-bottom:15px;
+}
+
+.card h2{
+    color:#667eea;
+    font-size:32px;
+}
+
+.card p{
+    margin-top:8px;
+    color:#777;
+}
+
+
+/* SECTION */
+
+.section{
+    background:white;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.section h2{
+    margin-bottom:20px;
+}
+
+
+/* BUTTONS */
+
+.add-btn{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.analyze-btn{
+    margin-top:20px;
+    background:#667eea;
+    color:white;
+    border:none;
+    padding:13px 25px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cancel-btn{
+    margin-top:20px;
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:13px 25px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-left:10px;
+}
+
+.view-btn{
+    background:#667eea;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+.delete-btn{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:20px;
+}
+
+.input-box label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.input-box input{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:7px;
+}
+
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.subject-box{
+    background:#f4f6fb;
+    padding:15px;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.subject-box input{
+    width:100px;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+
+/* RESULT */
+
+.result-box{
+    margin-top:20px;
+    background:#eef1ff;
+    padding:20px;
+    border-radius:10px;
+    line-height:1.8;
+}
+
+
+/* IMPORTANT HIDDEN CLASS */
+
+.hidden{
+    display:none !important;
+}
+
+
+/* SEARCH */
+
+.search-box{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-bottom:20px;
+    font-size:15px;
+}
+
+
+/* TABLE */
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1000px;
+}
+
+th,td{
+    padding:13px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#eef1ff;
+}
+
+.low{
+    color:green;
+    font-weight:bold;
+}
+
+.medium{
+    color:#d99a00;
+    font-weight:bold;
+}
+
+.high{
+    color:red;
+    font-weight:bold;
+}
+
+
+/* ALERT */
+
+.alert-box{
+    background:#fff3cd;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:12px;
+}
+
+.success-box{
+    background:#d4edda;
+    padding:18px;
+    border-radius:10px;
+}
+
+
+/* STUDENT POPUP */
+
+.modal{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+}
+
+.modal.hidden{
+    display:none !important;
+}
+
+.modal-content{
+    background:white;
+    width:650px;
+    max-width:100%;
+
+    max-height:90vh;
+    overflow-y:auto;
+
+    padding:30px;
+    border-radius:15px;
+
+    position:relative;
+
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+.close-btn{
+    position:absolute;
+
+    top:10px;
+    right:15px;
+
+    width:35px;
+    height:35px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#f1f1f1;
+
+    font-size:25px;
+
+    cursor:pointer;
+}
+
+.close-btn:hover{
+    background:#ddd;
+}
+
+.modal-title{
+    color:#667eea;
+    margin-bottom:20px;
+    padding-right:40px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.detail-card{
+    background:#f4f6fb;
+    padding:15px;
+    border-radius:8px;
+}
+
+.detail-card h4{
+    color:#666;
+    margin-bottom:7px;
+}
+
+.detail-card p{
+    font-size:20px;
+    font-weight:bold;
+    color:#667eea;
+}
+
+.subject-list{
+    background:#f4f6fb;
+    padding:15px;
+    border-radius:10px;
+    line-height:2;
+    margin-bottom:20px;
+}
+
+.ai-box{
+    background:#eef1ff;
+    padding:20px;
+    border-radius:10px;
+    line-height:1.7;
+}
+
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .cards,
+    .form-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .cards,
+    .form-grid,
+    .subject-grid,
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        padding:20px;
+    }
+
+    header{
+        padding:20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+<div>
+
+<h1>👨‍🏫 Faculty Dashboard</h1>
+
+<p>AI Driven Student Success Management</p>
+
+</div>
+
+<button
+class="logout-btn"
+onclick="logout()">
+
+Logout
+
+</button>
+
+</header>
+
+
+
+<div class="container">
+
+
+<!-- SUMMARY -->
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>👨‍🎓 Total Students</h3>
+
+<h2 id="totalStudents">0</h2>
+
+<p>Student records</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🟢 Low Risk</h3>
+
+<h2 id="lowRisk">0</h2>
+
+<p>Performing well</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🟡 Medium Risk</h3>
+
+<h2 id="mediumRisk">0</h2>
+
+<p>Need improvement</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔴 High Risk</h3>
+
+<h2 id="highRisk">0</h2>
+
+<p>Need attention</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ADD STUDENT -->
+
+<div class="section">
+
+<h2>👨‍🎓 Student Management</h2>
+
+
+<button
+class="add-btn"
+onclick="showForm()">
+
+➕ Add New Student
+
+</button>
+
+
+<div
+id="studentForm"
+class="hidden">
+
+
+<div class="form-grid">
+
+
+<div class="input-box">
+
+<label>Student Name</label>
+
+<input
+type="text"
+id="studentName"
+placeholder="Enter student name">
+
+</div>
+
+
+<div class="input-box">
+
+<label>Roll Number</label>
+
+<input
+type="text"
+id="rollNo"
+placeholder="Enter roll number">
+
+</div>
+
+
+<div class="input-box">
+
+<label>Department</label>
+
+<input
+type="text"
+id="department"
+value="Information Technology">
+
+</div>
+
+
+<div class="input-box">
+
+<label>Attendance (%)</label>
+
+<input
+type="number"
+id="attendance"
+min="0"
+max="100"
+placeholder="0 - 100">
+
+</div>
+
+
+<div class="input-box">
+
+<label>Average Marks (%)</label>
+
+<input
+type="number"
+id="marks"
+min="0"
+max="100"
+placeholder="0 - 100">
+
+</div>
+
+
+<div class="input-box">
+
+<label>Assignments (%)</label>
+
+<input
+type="number"
+id="assignments"
+min="0"
+max="100"
+placeholder="0 - 100">
+
+</div>
+
+
+</div>
+
+
+<h3 style="margin-top:25px;">
+
+📚 Subject Marks
+
+</h3>
+
+
+<div class="subject-grid">
+
+
+<div class="subject-box">
+
+<span>Data Structures</span>
+
+<input
+type="number"
+id="ds"
+min="0"
+max="100"
+placeholder="Marks">
+
+</div>
+
+
+<div class="subject-box">
+
+<span>Java Programming</span>
+
+<input
+type="number"
+id="java"
+min="0"
+max="100"
+placeholder="Marks">
+
+</div>
+
+
+<div class="subject-box">
+
+<span>Data Science</span>
+
+<input
+type="number"
+id="dataScience"
+min="0"
+max="100"
+placeholder="Marks">
+
+</div>
+
+
+<div class="subject-box">
+
+<span>Discrete Mathematics</span>
+
+<input
+type="number"
+id="maths"
+min="0"
+max="100"
+placeholder="Marks">
+
+</div>
+
+
+<div class="subject-box">
+
+<span>Computer Networks</span>
+
+<input
+type="number"
+id="networks"
+min="0"
+max="100"
+placeholder="Marks">
+
+</div>
+
+
+</div>
+
+
+<button
+class="analyze-btn"
+onclick="analyzeStudent()">
+
+🤖 Analyze & Save Student
+
+</button>
+
+
+<button
+class="cancel-btn"
+onclick="hideForm()">
+
+Cancel
+
+</button>
+
+
+<div
+id="result"
+class="result-box hidden">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ATTENTION -->
+
+<div class="section">
+
+<h2>⚠️ Students Needing Attention</h2>
+
+<div id="attentionList"></div>
+
+</div>
+
+
+
+<!-- STUDENT TABLE -->
+
+<div class="section">
+
+<h2>📋 All Student Details</h2>
+
+
+<input
+type="text"
+id="searchInput"
+class="search-box"
+placeholder="🔍 Search student..."
+onkeyup="searchStudents()">
+
+
+<div class="table-container">
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Roll No</th>
+
+<th>Department</th>
+
+<th>Attendance</th>
+
+<th>Marks</th>
+
+<th>Success Score</th>
+
+<th>Risk</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="studentTable">
+
+</tbody>
+
+
+</table>
+
+
+<div
+id="noData"
+style="text-align:center;padding:20px;color:#777;">
+
+No students added yet.
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- STUDENT DETAILS POPUP -->
+
+<div
+id="studentModal"
+class="modal hidden">
+
+
+<div class="modal-content">
+
+
+<button
+class="close-btn"
+onclick="closeModal()">
+
+×
+    
+</button>
+
+
+<h2
+id="modalStudentName"
+class="modal-title">
+
+Student Details
+
+</h2>
+
+
+<div
+id="modalDetails">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+/* LOAD STUDENTS */
+
+let students =
+JSON.parse(
+localStorage.getItem("students")
+) || [];
+
+
+
+/* SHOW FORM */
+
+function showForm(){
+
+document
+.getElementById("studentForm")
+.classList.remove("hidden");
+
+}
+
+
+/* HIDE FORM */
+
+function hideForm(){
+
+document
+.getElementById("studentForm")
+.classList.add("hidden");
+
+clearForm();
+
+}
+
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+document.getElementById("studentName").value="";
+
+document.getElementById("rollNo").value="";
+
+document.getElementById("attendance").value="";
+
+document.getElementById("marks").value="";
+
+document.getElementById("assignments").value="";
+
+document.getElementById("ds").value="";
+
+document.getElementById("java").value="";
+
+document.getElementById("dataScience").value="";
+
+document.getElementById("maths").value="";
+
+document.getElementById("networks").value="";
+
+document
+.getElementById("result")
+.classList.add("hidden");
+
+}
+
+
+
+/* ANALYZE */
+
+function analyzeStudent(){
+
+
+const name =
+document
+.getElementById("studentName")
+.value
+.trim();
+
+
+const rollNo =
+document
+.getElementById("rollNo")
+.value
+.trim();
+
+
+const department =
+document
+.getElementById("department")
+.value
+.trim();
+
+
+const attendance =
+Number(
+document
+.getElementById("attendance")
+.value
+);
+
+
+const marks =
+Number(
+document
+.getElementById("marks")
+.value
+);
+
+
+const assignments =
+Number(
+document
+.getElementById("assignments")
+.value
+);
+
+
+if(
+
+name === "" ||
+
+rollNo === "" ||
+
+attendance < 0 ||
+attendance > 100 ||
+
+marks < 0 ||
+marks > 100 ||
+
+assignments < 0 ||
+assignments > 100
+
+){
+
+alert(
+"Please enter valid student details."
+);
+
+return;
+
+}
+
+
+/* SUBJECTS */
+
+const subjects = {
+
+"Data Structures":
+Number(
+document
+.getElementById("ds")
+.value
+),
+
+"Java Programming":
+Number(
+document
+.getElementById("java")
+.value
+),
+
+"Data Science":
+Number(
+document
+.getElementById("dataScience")
+.value
+),
+
+"Discrete Mathematics":
+Number(
+document
+.getElementById("maths")
+.value
+),
+
+"Computer Networks":
+Number(
+document
+.getElementById("networks")
+.value
+)
+
+};
+
+
+let lowest = 101;
+
+let weakSubject = "";
+
+
+for(
+const subject in subjects
+){
+
+if(
+
+subjects[subject] < 0 ||
+subjects[subject] > 100
+
+){
+
+alert(
+"Enter subject marks between 0 and 100."
+);
+
+return;
+
+}
+
+
+if(
+subjects[subject] < lowest
+){
+
+lowest =
+subjects[subject];
+
+weakSubject =
+subject;
+
+}
+
+}
+
+
+/* SUCCESS SCORE */
+
+const score = Math.round(
+
+attendance * 0.30 +
+
+marks * 0.50 +
+
+assignments * 0.20
+
+);
+
+
+/* RISK */
+
+let risk;
+
+
+if(score >= 80){
+
+risk =
+"🟢 Low Risk";
+
+}
+
+else if(score >= 60){
+
+risk =
+"🟡 Medium Risk";
+
+}
+
+else{
+
+risk =
+"🔴 High Risk";
+
+}
+
+
+/* AI RECOMMENDATION */
+
+let recommendation;
+
+
+if(score >= 80){
+
+recommendation =
+"Excellent performance. Continue regular revision and maintain the current study routine.";
+
+}
+
+else if(score >= 60){
+
+recommendation =
+"Student needs improvement. Focus more on weak subjects and maintain regular attendance.";
+
+}
+
+else{
+
+recommendation =
+"Student is at academic risk. Faculty intervention, additional practice and regular monitoring are recommended.";
+
+}
+
+
+if(attendance < 75){
+
+recommendation +=
+" Attendance is below 75%, so regular attendance is strongly recommended.";
+
+}
+
+
+if(lowest < 60){
+
+recommendation +=
+" Special attention should be given to " +
+weakSubject + ".";
+
+}
+
+
+/* STUDENT */
+
+const student = {
+
+id:Date.now(),
+
+name:name,
+
+rollNo:rollNo,
+
+department:department,
+
+attendance:attendance,
+
+marks:marks,
+
+assignments:assignments,
+
+subjects:subjects,
+
+successScore:score,
+
+risk:risk,
+
+weakSubject:weakSubject,
+
+recommendation:recommendation,
+
+date:new Date().toLocaleString()
+
+};
+
+
+/* SAVE */
+
+students.push(student);
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+
+/* RESULT */
+
+const result =
+document.getElementById("result");
+
+result.classList.remove("hidden");
+
+
+result.innerHTML = `
+
+<strong>✅ Student Analysis Completed</strong>
+
+<br><br>
+
+👤 Student:
+<strong>${name}</strong>
+
+<br>
+
+🎯 Success Score:
+<strong>${score}%</strong>
+
+<br>
+
+🚦 Risk Level:
+<strong>${risk}</strong>
+
+<br>
+
+⚠️ Weak Subject:
+<strong>${weakSubject}</strong>
+
+<br>
+
+🤖 AI Recommendation:
+
+${recommendation}
+
+`;
+
+
+loadDashboard();
+
+}
+
+
+
+/* LOAD DASHBOARD */
+
+function loadDashboard(){
+
+
+students =
+JSON.parse(
+localStorage.getItem("students")
+) || [];
+
+
+let low = 0;
+
+let medium = 0;
+
+let high = 0;
+
+
+students.forEach(
+student => {
+
+if(
+student.risk.includes("Low")
+){
+
+low++;
+
+}
+
+else if(
+student.risk.includes("Medium")
+){
+
+medium++;
+
+}
+
+else{
+
+high++;
+
+}
+
+});
+
+
+document.getElementById(
+"totalStudents"
+).innerText =
+students.length;
+
+
+document.getElementById(
+"lowRisk"
+).innerText =
+low;
+
+
+document.getElementById(
+"mediumRisk"
+).innerText =
+medium;
+
+
+document.getElementById(
+"highRisk"
+).innerText =
+high;
+
+
+displayStudents(students);
+
+displayAttention();
+
+}
+
+
+
+/* DISPLAY STUDENTS */
+
+function displayStudents(data){
+
+
+const table =
+document.getElementById(
+"studentTable"
+);
+
+
+const noData =
+document.getElementById(
+"noData"
+);
+
+
+table.innerHTML = "";
+
+
+if(data.length === 0){
+
+noData.style.display =
+"block";
+
+return;
+
+}
+
+
+noData.style.display =
+"none";
+
+
+[...data]
+.reverse()
+.forEach(
+student => {
+
+
+const row =
+document.createElement("tr");
+
+
+let riskClass = "";
+
+
+if(
+student.risk.includes("Low")
+){
+
+riskClass =
+"low";
+
+}
+
+else if(
+student.risk.includes("Medium")
+){
+
+riskClass =
+"medium";
+
+}
+
+else{
+
+riskClass =
+"high";
+
+}
+
+
+row.innerHTML = `
+
+<td>${student.name}</td>
+
+<td>${student.rollNo}</td>
+
+<td>${student.department}</td>
+
+<td>${student.attendance}%</td>
+
+<td>${student.marks}%</td>
+
+<td>${student.successScore}%</td>
+
+<td class="${riskClass}">
+${student.risk}
+</td>
+
+<td>
+
+<button
+class="view-btn"
+onclick="viewStudent(${student.id})">
+
+View
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteStudent(${student.id})">
+
+Delete
+
+</button>
+
+</td>
+
+`;
+
+
+table.appendChild(row);
+
+});
+
+}
+
+
+
+/* VIEW STUDENT */
+
+function viewStudent(id){
+
+
+const student =
+students.find(
+s => s.id === id
+);
+
+
+if(!student)
+return;
+
+
+document.getElementById(
+"modalStudentName"
+).innerText =
+
+"🎓 " +
+student.name +
+" - Student Details";
+
+
+let subjectHTML = "";
+
+
+for(
+const subject in student.subjects
+){
+
+subjectHTML += `
+
+<div>
+
+📚 ${subject} :
+
+<strong>
+${student.subjects[subject]}%
+</strong>
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"modalDetails"
+).innerHTML = `
+
+<div class="detail-grid">
+
+
+<div class="detail-card">
+
+<h4>Roll Number</h4>
+
+<p>
+${student.rollNo}
+</p>
+
+</div>
+
+
+<div class="detail-card">
+
+<h4>Department</h4>
+
+<p style="font-size:16px;">
+${student.department}
+</p>
+
+</div>
+
+
+<div class="detail-card">
+
+<h4>Attendance</h4>
+
+<p>
+${student.attendance}%
+</p>
+
+</div>
+
+
+<div class="detail-card">
+
+<h4>Average Marks</h4>
+
+<p>
+${student.marks}%
+</p>
+
+</div>
+
+
+<div class="detail-card">
+
+<h4>Assignments</h4>
+
+<p>
+${student.assignments}%
+</p>
+
+</div>
+
+
+<div class="detail-card">
+
+<h4>Success Score</h4>
+
+<p>
+${student.successScore}%
+</p>
+
+</div>
+
+
+</div>
+
+
+<h3>
+📚 Subject-wise Performance
+</h3>
+
+
+<div class="subject-list">
+
+${subjectHTML}
+
+</div>
+
+
+<div class="ai-box">
+
+<h3>
+🤖 AI Analysis
+</h3>
+
+<br>
+
+<strong>
+Risk Level:
+</strong>
+
+${student.risk}
+
+<br><br>
+
+<strong>
+⚠️ Weak Subject:
+</strong>
+
+${student.weakSubject}
+
+<br><br>
+
+<strong>
+💡 AI Recommendation:
+</strong>
+
+<br><br>
+
+${student.recommendation}
+
+<br><br>
+
+<small>
+Analysis Date:
+${student.date}
+</small>
+
+</div>
+
+`;
+
+
+document
+.getElementById("studentModal")
+.classList.remove("hidden");
+
+}
+
+
+
+/* CLOSE POPUP */
+
+function closeModal(){
+
+document
+.getElementById("studentModal")
+.classList.add("hidden");
+
+}
+
+
+/* CLICK OUTSIDE POPUP TO CLOSE */
+
+document
+.getElementById("studentModal")
+.addEventListener(
+"click",
+function(event){
+
+if(
+event.target === this
+){
+
+closeModal();
+
+}
+
+});
+
+
+
+/* ESC KEY TO CLOSE */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(event.key === "Escape"){
+
+closeModal();
+
+}
+
+});
+
+
+
+/* DELETE STUDENT */
+
+function deleteStudent(id){
+
+
+const student =
+students.find(
+s => s.id === id
+);
+
+
+if(!student)
+return;
+
+
+const confirmDelete =
+confirm(
+
+"Delete " +
+student.name +
+" from student records?"
+
+);
+
+
+if(confirmDelete){
+
+students =
+students.filter(
+s => s.id !== id
+);
+
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+
+loadDashboard();
+
+}
+
+}
+
+
+
+/* ATTENTION */
+
+function displayAttention(){
+
+
+const list =
+document.getElementById(
+"attentionList"
+);
+
+
+list.innerHTML = "";
+
+
+const risky =
+students.filter(
+student =>
+
+student.risk.includes("Medium") ||
+
+student.risk.includes("High")
+
+);
+
+
+if(
+risky.length === 0
+){
+
+list.innerHTML = `
+
+<div class="success-box">
+
+<strong>
+✅ No students need immediate attention.
+</strong>
+
+<br><br>
+
+All students are currently
+performing at an acceptable level.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+[...risky]
+.reverse()
+.forEach(
+student => {
+
+
+const box =
+document.createElement("div");
+
+
+box.className =
+"alert-box";
+
+
+box.innerHTML = `
+
+<strong>
+
+${student.risk}
+—
+${student.name}
+
+</strong>
+
+<br><br>
+
+Success Score:
+${student.successScore}%
+
+<br>
+
+Weak Subject:
+${student.weakSubject}
+
+<br>
+
+Recommendation:
+${student.recommendation}
+
+`;
+
+
+list.appendChild(box);
+
+});
+
+}
+
+
+
+/* SEARCH */
+
+function searchStudents(){
+
+
+const search =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+
+const filtered =
+students.filter(
+student =>
+
+student.name
+.toLowerCase()
+.includes(search)
+
+||
+
+student.rollNo
+.toLowerCase()
+.includes(search)
+
+||
+
+student.department
+.toLowerCase()
+.includes(search)
+
+||
+
+student.risk
+.toLowerCase()
+.includes(search)
+
+);
+
+
+displayStudents(filtered);
+
+}
+
+
+
+/* LOGOUT */
+
+function logout(){
+
+window.location.href =
+"index.html";
+
+}
+
+
+
+/* START */
+
+loadDashboard();
+
+</script>
+
+
+</body>
+
+</html>
